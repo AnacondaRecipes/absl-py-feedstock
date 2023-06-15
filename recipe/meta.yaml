@@ -1,7 +1,5 @@
 {% set name = "absl-py" %}
-{% set version = "1.3.0" %}
-{% set hash_type = "sha256" %}
-{% set hash_value = "463c38a08d2e4cef6c498b76ba5bd4858e4c6ef51da1a5a1f27139a022e20248" %}
+{% set version = "1.4.0" %}
 
 package:
   name: {{ name|lower }}
@@ -9,13 +7,12 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  {{ hash_type }}: {{ hash_value }}
+  sha256: d2c244d01048ba476e7c080bd2c6df5e141d211de80223460d5b3b8a2a58433d
 
 build:
   number: 0
-  # The package absl is not available in s390x.
-  skip: True  # [py<36 or s390x]
-  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
+  skip: True  # [py<36]
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv 
 
 requirements:
   host:
@@ -42,13 +39,13 @@ about:
   license: Apache-2.0
   license_family: Apache
   license_file: LICENSE
-  summary: |
+  summary: Abseil Common Libraries (Python)
+  description: |
     This repository is a collection of Python library code for building Python applications. 
     The code is collected from Google's own Python code base,
     and has been extensively tested and used in production.
   doc_url: https://abseil.io/docs/python/
   dev_url: https://github.com/abseil/abseil-py
-  doc_source_url: https://github.com/abseil/abseil-py/blob/main/docs/source/
 
 extra:
   recipe-maintainers:
