@@ -1,5 +1,5 @@
 {% set name = "absl-py" %}
-{% set version = "1.4.0" %}
+{% set version = "2.1.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,11 +7,11 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: d2c244d01048ba476e7c080bd2c6df5e141d211de80223460d5b3b8a2a58433d
+  sha256: 7820790efbb316739cde8b4e19357243fc3608a152024288513dd968d7d959ff
 
 build:
   number: 0
-  skip: True  # [py<36]
+  skip: True  # [py<37]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv 
 
 requirements:
@@ -33,7 +33,7 @@ test:
     - pip
   commands:
     - pip check
-
+  
 about:
   home: https://abseil.io/
   license: Apache-2.0
