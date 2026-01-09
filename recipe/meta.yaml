@@ -6,8 +6,8 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-','_') }}-{{ version }}.tar.gz
-  sha256: a97820526f7fbfd2ec1bce83f3f25e3a14840dac0d8e02a0b71cd75db3f77fc9
+  url: https://github.com/abseil/abseil-py/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: cc6d8764c0bdd76cc1308efdb75035d021447974271a83effa7f2616544ee3da
 
 build:
   number: 0
@@ -24,6 +24,8 @@ requirements:
     - python
 
 test:
+  source_files:
+    - .
   imports:
     - absl
     - absl.flags
@@ -31,9 +33,11 @@ test:
     - absl.testing
   requires:
     - pip
+    - bazel
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - bazel test absl/...
   
 about:
   home: https://abseil.io/
