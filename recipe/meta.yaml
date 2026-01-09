@@ -1,17 +1,17 @@
 {% set name = "absl-py" %}
-{% set version = "2.1.0" %}
+{% set version = "2.3.1" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 7820790efbb316739cde8b4e19357243fc3608a152024288513dd968d7d959ff
+  url: https://github.com/abseil/abseil-py/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: cc6d8764c0bdd76cc1308efdb75035d021447974271a83effa7f2616544ee3da
 
 build:
   number: 0
-  skip: True  # [py<37]
+  skip: True  # [py<38]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv 
 
 requirements:
@@ -19,11 +19,13 @@ requirements:
     - python
     - pip
     - wheel
-    - setuptools
+    - hatchling >=1.26
   run:
     - python
 
 test:
+  source_files:
+    - .
   imports:
     - absl
     - absl.flags
@@ -31,11 +33,14 @@ test:
     - absl.testing
   requires:
     - pip
+    - bazel
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - bazel test absl/...
   
 about:
-  home: https://abseil.io/
+  home: https://abseil.io
   license: Apache-2.0
   license_family: Apache
   license_file: LICENSE
@@ -44,7 +49,7 @@ about:
     This repository is a collection of Python library code for building Python applications. 
     The code is collected from Google's own Python code base,
     and has been extensively tested and used in production.
-  doc_url: https://abseil.io/docs/python/
+  doc_url: https://abseil.io/docs/python
   dev_url: https://github.com/abseil/abseil-py
 
 extra:
