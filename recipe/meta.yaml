@@ -20,6 +20,7 @@ requirements:
     - pip
     - wheel
     - setuptools
+    - hatchling >=1.26
   run:
     - python
 
