@@ -10,7 +10,7 @@ source:
   sha256: cc6d8764c0bdd76cc1308efdb75035d021447974271a83effa7f2616544ee3da
 
 build:
-  number: 0
+  number: 1
   skip: True  # [py<38]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv 
 
@@ -33,11 +33,11 @@ test:
     - absl.testing
   requires:
     - pip
-    - bazel
+    - bazel  # [not (win and arm64)]
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - bazel test absl/...
+    - bazel test absl/...  # [not (win and arm64)]
   
 about:
   home: https://abseil.io
